@@ -70,6 +70,19 @@ header{
  .canvas .custom-tooltip #town{
  	font-size:12pt;
  }
+/* ---------button removal stuff------------ */
+
+
+.remove{
+	display:none;
+}
+
+.show{
+	display:block;
+
+}
+
+
 
 /* ---------fonts------------ */
 

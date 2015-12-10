@@ -6,16 +6,12 @@ var width = document.getElementById('plot').clientWidth-margin.l-margin.r,
 
 d3.select('.custom-tooltip').style('opacity',0);
 
-d3.select('.price-breakout').style('opacity',0);
+//d3.select('.price-breakout').style('opacity',0);
 
+//d3.select('.price-breakout').attr('class','remove');
+//d3.select('.price-breakout').attr('class','show btn-group controls price-breakout');
 
-$('#map').on("click", function(e){
-    console.log("this is click", e.target)
-
-
-
-})
-
+$('.price-breakout').css('display','none');
 
 
 var plot = d3.select('.canvas')
@@ -24,12 +20,11 @@ var plot = d3.select('.canvas')
 	.attr('height',height+margin.t+margin.b)
 	.append('g')
 	.attr('class','plot')
-	//.attr('transform', 'translate ('+margin.l+','+margin.r+')');
+	.attr('transform', 'translate ('+margin.l+','+margin.r+')');
 
 
 
 var formatCurrency = d3.format("$,.0f");
-console.log(formatCurrency(12345e5));
 
 var force = d3.layout.force()
     .size([width,height])
@@ -131,8 +126,8 @@ queue()
 	//data load and join
 
 function dataLoaded(err,data,labels){
-    console.log(data);
-    console.log(labels);
+    //console.log(data);
+    //console.log(labels);
 
 //appending labels
 
@@ -198,13 +193,16 @@ plot.append('g')
 			.style('fill-opacity','1')
 			.style('stroke-opacity', '1')
 			axis.transition().duration(1000).style('opacity','0')
-			d3.select('.price-breakout').style('opacity',0);
+			//d3.select('.price-breakout').style('opacity',0);
+            $('.price-breakout').css('display','none');
 		}else if (selection =='graph'){
 			map.transition().duration(1000)
 			.style('fill-opacity','0')
 			.style('stroke-opacity', '0')
 			axis.transition().duration(1000).style('opacity','1')
-			d3.select('.price-breakout').style('opacity',1);
+			//d3.select('.price-breakout').style('opacity',1);
+            $('.price-breakout').css('display','block');
+
 		}
 
 
@@ -214,7 +212,7 @@ plot.append('g')
 			.data(data, function(d){return d.key})
 		nodes
 			.enter()
-			.append('circle');
+			.append('circle')
 			.attr('class','room')
 			.attr('r', 5)
             .style('fill',function(d){return scaleColor(d.type)})
@@ -234,7 +232,7 @@ plot.append('g')
 			.style('opacity',.15)
 			.attr('r',3)
 			force.stop()
-                    d3.selectAll('.label').style('opacity',0);
+            d3.selectAll('.label').style('opacity',0);
 ;
 
 		//draw graph
@@ -247,6 +245,7 @@ plot.append('g')
             .style('fill',function(d){return scaleColor(d.type)})
             .style('opacity','.5')
             d3.selectAll('.label').style('opacity',0);
+
 
 
         
@@ -297,7 +296,7 @@ function onForceTick(e){
     function gravity(k){
         //custom gravity: data points gravitate towards a straight line
         return function(d){
-            d.y += (height/8 - d.y)*k;//maybe use a scale to change y value?
+            d.y += (height/8 - d.y)*k;
             d.x += (d.x0 - d.x)*k;
         }
     }
@@ -470,13 +469,6 @@ function collide(dataPoint){
         return x1>nx2 || x2<nx1 || y1>ny2 || y2<ny1;
     }
 }
-console.log($( "#map" ))
 
-$( document ).ready(function() {
-$( "#map" ).trigger("click")
-    // map.transition().duration(1000)
-    //         .style('fill-opacity','1')
-    //         .style('stroke-opacity', '1')
-    //         axis.transition().duration(1000).style('opacity','0')
-    //         d3.select('.price-breakout').style('opacity',0);
-});
+
+
