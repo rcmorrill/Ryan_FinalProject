@@ -1,9 +1,3 @@
-
-d3.select('.custom-tooltip').style('opacity',0);
-
-
-
-
 var neighborhoods_json = {
 "type": "FeatureCollection",
                                                                                 

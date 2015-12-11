@@ -136,7 +136,7 @@ a {
 }
 
 .axis .halo {
-  stroke: rgb(234,234,229);
+  stroke: black;
   stroke-width: 4px;
 }
 
@@ -150,10 +150,18 @@ a {
 .slider .handle text {
   fill: black;
   text-align: center;
-  font-size: 18px;
 }
 
-
+.labelPoint{
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
 
 
 

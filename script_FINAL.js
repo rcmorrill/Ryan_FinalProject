@@ -4,13 +4,9 @@ var margin = {t:50,r:50,b:50,l:50};
 var width = document.getElementById('plot').clientWidth-margin.l-margin.r,
 	height = document.getElementById('plot').clientHeight-margin.t-margin.b;
 
+//Hide a few things initially
+
 d3.select('.custom-tooltip').style('opacity',0);
-
-//d3.select('.price-breakout').style('opacity',0);
-
-//d3.select('.price-breakout').attr('class','remove');
-//d3.select('.price-breakout').attr('class','show btn-group controls price-breakout');
-
 $('.price-breakout').css('display','none');
 
 
@@ -24,35 +20,24 @@ var plot = d3.select('.canvas')
 
 
 
-var formatCurrency = d3.format("$,.0f");
 
-var force = d3.layout.force()
-    .size([width,height])
-    .charge(0)
-    .gravity(0);
-//scales
+
+//scales and axis
 
 var scaleColor = d3.scale.ordinal().domain([1,2,3]).range(['rgb(230,126,31)','rgb(0,126,146)', 'black']);
 var scaleColor2 = d3.scale.linear().domain([3,5]).range(['red','white']);
-
 var scaleX = d3.scale.linear().domain([17,700]).range([100,width]);
-//var scaleX = d3.scale.log().domain([50,1500]).range([0,width]);
-
 
 var axisX = d3.svg.axis()
-    //.orient('bottom')
     .scale(scaleX)
-    .tickFormat(formatCurrency)
-    //.tickFormat( d3.format('d') );
-
-    
+    .tickFormat(formatCurrency);
 
 var axis = plot.append('g').attr('class','axis axis-x')
-    //.attr('transform','translate(0,'+height+')')
     .call(axisX)
     .style('opacity','0');
 
-//appending legend
+//------------manually appending legend -------------------------------------------------
+
 
 legend
 var legend = d3.select('.legend')
@@ -97,10 +82,7 @@ legend.append('text')
     .attr('fill','black')
     .attr('transform', 'translate (272,4)');
 
-
-
-
-//CREATING MAP STUFF
+//MAP PROJECTION AND GENERATOR + OTHER VARIABLES -------------------------------
 	
 	//Projection
 
@@ -115,7 +97,17 @@ var albersProjection = d3.geo.albers()
 var geoPath = d3.geo.path()
 	.projection (albersProjection);
 
-//DATA LOAD
+
+//creating force variable and formatting currency
+
+var formatCurrency = d3.format("$,.0f");
+
+var force = d3.layout.force()
+    .size([width,height])
+    .charge(0)
+    .gravity(0);
+
+//----------- DATA LOAD AND MAIN FUNCTION --------------------------------------------------------------
 
 
 queue()
@@ -123,16 +115,12 @@ queue()
     .defer(d3.csv,'data/labels.csv',parseLabels)
     .await(dataLoaded);
 
-	//data load and join
-
 
 //MAIN FUNCTION
 
 function dataLoaded(err,data,labels){
-    //console.log(data);
-    //console.log(labels);
 
-//appending labels
+//appending labels for neighborhood view
 
 var group = plot.selectAll('label')
     .data(labels)
@@ -170,7 +158,7 @@ plot.append('g')
 
 
 
-//ALL THE FORCE FUNCTION STUFF
+//ALL THE FORCE FUNCTION STUFF------------------------------------
 
             
 function onForceTick(e){
@@ -250,8 +238,10 @@ function onMultiFociTick(e){
 
 }//END onMultiFociTick Function
 
+//END FORCE FUNCTIONS ----------------------------------------------------------
 
-//DRAWING MAP AND CIRCLES-----------------------------------
+
+//-----------------------------DRAWING MAP AND CIRCLES-----------------------------------
 
 		var map = plot.selectAll('path')
 		.data(neighborhoods_json.features);
@@ -287,7 +277,7 @@ function onMultiFociTick(e){
 
 
 
-//CONDITIONAL STUFF BASED ON BUTTON CLICKS
+//-----------------------------CONDITIONAL STUFF BASED ON BUTTON CLICKS-----------------------------
 
     d3.selectAll('.btn').on('click',function(){
         var selection = d3.select(this).attr('id');
@@ -358,7 +348,7 @@ if(selection == 'map'){
 
         }//end 'GRAPH' 'if select' statement
 
-})//END CONDITIONAL BUTTON SELCTION
+})//END CONDITIONAL BUTTON SELECTION----------------------------------------------------------
 
 
 //--------------------------------------------experimenting with slider-----------------------------------------------------------------------------------------------------------
@@ -388,7 +378,7 @@ if(selection == 'map'){
                 .tickValues([0,700])
                 )
             .select(".domain")
-              .select(function() {console.log(this); return this.parentNode.appendChild(this.cloneNode(true)); })
+              .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
                 .attr("class", "halo")
                 .attr('transform','translate(0,5)');
                 var slider = plot.append("g")
@@ -398,6 +388,13 @@ if(selection == 'map'){
                 var handle = slider.append("g")
                     .attr("class", "handle")
 
+                handle.append('rect')//This will act as background color over the actual black slider
+                    .attr('x','0')
+                    .attr('y',2)
+                    .attr('height',6)
+                    .attr('width',172)
+                    .style('fill','rgb(234,234,229)')
+
                 handle.append("circle")
                     .attr("transform", "translate(0,5)")
                     //.attr("d", "M 0 -20 V 10")
@@ -405,6 +402,7 @@ if(selection == 'map'){
 
                 handle.append('text')
                   .text("$"+ startingValue)
+                  .attr('class','labelPoint')
                   .attr("transform", "translate(-15,30)");
 
                 slider
@@ -428,12 +426,12 @@ if(selection == 'map'){
 
                   handle.attr("transform", "translate(" + x(value) + ",0)");
                   handle.select('text').text('$' + Math.floor(value))
-                  
+                  handle.select('rect').attr('width',172-x(value))
                     d3.selectAll('.room').classed('remove', function(d){if (d.price>value){return true}
                         else if(d.price<=value){return false}
                     })
                 }
-
+ 
 
                 
 
