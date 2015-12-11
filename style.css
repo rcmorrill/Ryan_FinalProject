@@ -117,6 +117,45 @@ p{ font-size:1em; margin:0 0 10px; }
 	text-align:right;
 }
 
+/* ---------slider stuff------------ */
+
+
+p {
+  color: black;
+}
+
+a {
+  color: black;
+}
+
+.axis {
+  fill: gray;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.axis .halo {
+  stroke: rgb(234,234,229);
+  stroke-width: 4px;
+}
+
+.slider .handle path {
+  stroke: rgb(180,180,180);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.slider .handle text {
+  fill: black;
+  text-align: center;
+  font-size: 18px;
+}
+
+
+
+
 
 
 
