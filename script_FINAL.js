@@ -18,7 +18,14 @@ var plot = d3.select('.canvas')
 	.attr('class','plot')
 	.attr('transform', 'translate (20,'+margin.r+')');
 
+//creating force variable and formatting currency
 
+var formatCurrency = d3.format("$,.0f");
+
+var force = d3.layout.force()
+    .size([width,height])
+    .charge(0)
+    .gravity(0);
 
 
 
@@ -82,7 +89,7 @@ legend.append('text')
     .attr('fill','black')
     .attr('transform', 'translate (272,4)');
 
-//MAP PROJECTION AND GENERATOR + OTHER VARIABLES -------------------------------
+//MAP PROJECTION AND GENERATOR  -------------------------------
 	
 	//Projection
 
@@ -98,14 +105,7 @@ var geoPath = d3.geo.path()
 	.projection (albersProjection);
 
 
-//creating force variable and formatting currency
 
-var formatCurrency = d3.format("$,.0f");
-
-var force = d3.layout.force()
-    .size([width,height])
-    .charge(0)
-    .gravity(0);
 
 //----------- DATA LOAD AND MAIN FUNCTION --------------------------------------------------------------
 
