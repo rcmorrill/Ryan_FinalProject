@@ -488,11 +488,15 @@ function tooltip(tip){
 
 		tooltip.select('#price').html(d.price);
 		tooltip.select('#town').html(d.hood);
+    d3.select(this).classed('hover', true)
+        
 
 	})
 	.on('mouseleave', function(d){
             d3.select('.custom-tooltip')
                 .style('opacity',0);
+    d3.select(this).classed('hover', false);
+
         })
     .on('mousemove', function(d){
             var xy = d3.mouse(document.getElementById('plot'));

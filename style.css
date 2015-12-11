@@ -163,6 +163,16 @@ a {
   border-radius: .25em;
 }
 
+/*--------------*/
+
+.hover{
+	opacity:1;
+	stroke:black;
+	stroke-opacity:34;
+	stroke-width: 2px;
+	
+}
+
 
 
 
