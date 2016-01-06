@@ -12,12 +12,14 @@
 </head>
 <body>
 	<div class="container">
-		<header class="col-md-10">
+		<header class="col-md-10" id="head">
 			<div>
-				<h1 class="extra">What should you charge?</br><font color="e67e1f">airbnb Boston</font></h1>
+				<h1 class="extra">What should you charge for airbnb in Boston?</h1>
 			</div>
 			<div id="sub"> This project is an analysis of Airbnb prices throughout the Boston area. Each circle represents a booking at a certain price point. If a room or aptartment was booked more than once during the data collection period, there will be multiple circles for the same room/apartment. 
 			</div>
+            <div class="legend">
+            </div><br style="clear:both"/>
 
 			 <div class="btn-group controls">
                 <a href="#" class="btn btn-default" id="map">MAP</a>
@@ -27,14 +29,13 @@
                 <a href="#" class="btn btn-default" id="all">TOTAL</a>
                 <a href="#" class="btn btn-default" id="breakout">BY NEIGHBORHOOD</a>
             </div>	
-            <div class="legend">
-            </div>	
+	
 		</header>
 		    
 	<div class="canvas col-md-6" id="plot">
 		<div class="custom-tooltip">
-			        <p>$<span id="price"></span></p>       
-                    <p><span id="town"></span></p>    
+			        <p>price: <b>$</b><span id="price"></span></p>       
+                    <p>location: <span id="town"></span>  </p>    
      
                  </div>
 			

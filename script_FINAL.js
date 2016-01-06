@@ -4,11 +4,6 @@ var margin = {t:50,r:50,b:50,l:50};
 var width = document.getElementById('plot').clientWidth-margin.l-margin.r,
 	height = document.getElementById('plot').clientHeight-margin.t-margin.b;
 
-//Hide a few things initially
-
-d3.select('.custom-tooltip').style('opacity',0);
-$('.price-breakout').css('display','none');
-
 
 var plot = d3.select('.canvas')
 	.append('svg')
@@ -32,6 +27,7 @@ var force = d3.layout.force()
 //scales and axis
 
 var scaleColor = d3.scale.ordinal().domain([1,2,3]).range(['rgb(230,126,31)','rgb(0,126,146)', 'black']);
+var scaleColorAlt = d3.scale.ordinal().domain([1,2,3]).range(['rgb(55,123,127)','rgb(241,129,49)', 'black']);
 var scaleColor2 = d3.scale.linear().domain([3,5]).range(['red','white']);
 var scaleX = d3.scale.linear().domain([17,700]).range([100,width]);
 
@@ -49,16 +45,16 @@ var axis = plot.append('g').attr('class','axis axis-x')
 legend
 var legend = d3.select('.legend')
     .append('svg')
-    .attr('width',415)
+    .attr('width',350)
     .attr('height',33)
     .append('g')
-    .attr('transform', 'translate (50,16)');
+    .attr('transform', 'translate (10,16)');
 
 //Private room
 
 legend.append('circle')
     .attr('r',5)
-    .attr('fill','rgb(0,126,146)')
+    .attr('fill','rgb(241,129,49)')
 
 legend.append('text')
     .text('private room')
@@ -69,25 +65,25 @@ legend.append('text')
 
 legend.append('circle')
     .attr('r',5)
-    .attr('fill','rgb(230,126,31)')
-    .attr('transform', 'translate (120,0)');
+    .attr('fill','rgb(55,123,127)')
+    .attr('transform', 'translate (112,0)');
 
 legend.append('text')
     .text('entire home/apt')
     .attr('fill','black')
-    .attr('transform', 'translate (132,4)');
+    .attr('transform', 'translate (124,4)');
 
 //Shared room  
 
 legend.append('circle')
     .attr('r',5)
     .attr('fill','rgb(50,50,50)')
-    .attr('transform', 'translate (260,0)');
+    .attr('transform', 'translate (244,0)');
 
 legend.append('text')
     .text('shared room')
     .attr('fill','black')
-    .attr('transform', 'translate (272,4)');
+    .attr('transform', 'translate (256,4)');
 
 //MAP PROJECTION AND GENERATOR  -------------------------------
 	
@@ -266,7 +262,7 @@ function onMultiFociTick(e){
             //.filter(function(d){return d.price <=125})
             .attr('class','room')
             .attr('r', 3)
-            .style('fill',function(d){return scaleColor(d.type)})
+            .style('fill',function(d){return scaleColorAlt(d.type)})
             .attr('cx',function(d){ return albersProjection([d.lon, d.lat])[0];})
             .attr('cy',function(d){ return albersProjection([d.lon, d.lat])[1];})
             .style('opacity','.15')
@@ -321,8 +317,8 @@ if(selection == 'map'){
 			.attr('cx', function(d){return scaleX(d.x)})
 			.attr('cy', function(d){return d.y})			
 			.attr('r',function(d){return d.r})
-            .style('fill',function(d){return scaleColor(d.type)})
-            .style('opacity','.5')
+            .style('fill',function(d){return scaleColorAlt(d.type)})
+            .style('opacity','.65')
             d3.selectAll('.label').style('opacity',0)
             d3.selectAll('.room').classed('remove', false);//removing scale filter when graph is selected
 
@@ -398,7 +394,7 @@ if(selection == 'map'){
                 handle.append("circle")
                     .attr("transform", "translate(0,5)")
                     //.attr("d", "M 0 -20 V 10")
-                    .attr('r',7)
+                    .attr('r',6)
 
                 handle.append('text')
                   .text("$"+ startingValue)
@@ -479,23 +475,28 @@ function parseLabels(d){
 }
 
 function tooltip(tip){
-	tip.on('mouseenter',function(d){
+    tip.on('mouseenter',function(d){
 
-	var tooltip = d3.select('.custom-tooltip');
+    var tooltip = d3.select('.custom-tooltip');
 
         tooltip.transition()
                .style('opacity',1);
 
-		tooltip.select('#price').html(d.price);
-		tooltip.select('#town').html(d.hood);
+        tooltip.select('#price').html(d.price);
+        tooltip.select('#town').html(d.hood);
     d3.select(this).classed('hover', true)
+    //.attr('r','10')
+    //.style('opacity',1)
+
         
 
-	})
-	.on('mouseleave', function(d){
+    })
+    .on('mouseleave', function(d){
             d3.select('.custom-tooltip')
                 .style('opacity',0);
-    d3.select(this).classed('hover', false);
+    d3.select(this).classed('hover', false)
+   //.attr('r','3')
+
 
         })
     .on('mousemove', function(d){
@@ -507,7 +508,7 @@ function tooltip(tip){
             var left = xy[0], top = xy[1];
 
             d3.select('.custom-tooltip')
-                .style('left', left + -40 + 'px')
+                .style('left', left + -0 + 'px')
                 .style('top', top + 30 + 'px');
 
          })

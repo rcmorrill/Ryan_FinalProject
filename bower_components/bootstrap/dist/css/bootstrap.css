@@ -6077,7 +6077,7 @@ button.close {
   padding: 0 5px;
   margin-left: -3px;
 }
-.tooltip-inner {
+.tooltip {
   max-width: 200px;
   padding: 3px 8px;
   color: #fff;
